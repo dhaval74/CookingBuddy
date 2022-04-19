@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +22,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [RecipeController::class, 'getAllRecipe'])->name('home');
 
-// Route::group(['prefix' => 'recipe'], function() {
-//     // Route::get('/recipe',[App\Http\Controllers\RecipeController::class,'index'])->name('recipe.index'); 
+Route::middleware(['auth'])->group(function() {
+    Route::post('/add-rating-review',[ReviewController::class,'add'])->name('add-rating'); 
 
-// });  
+});  
 Route::resource('recipes', RecipeController::class);

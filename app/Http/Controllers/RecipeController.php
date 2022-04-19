@@ -151,8 +151,15 @@ class RecipeController extends Controller
     public function show(Recipe $recipe)
 
     {
-
-        return view('recipes.show',compact('recipe'));
+        $recipe->reviews = $recipe->reviews;
+        $reting_sum = $recipe->reviews->sum('rating');
+        
+        if($recipe->reviews->count() > 0){
+            $rating_value = $reting_sum / $recipe->reviews->count(); 
+        }else{
+            $rating_value = 0;
+        }
+        return view('recipes.show',compact('recipe','rating_value'));
 
     }
 
@@ -263,6 +270,16 @@ class RecipeController extends Controller
         return redirect()->route('recipes.index')
 
                         ->with('success','Recipe deleted successfully');
+
+    }
+
+
+
+    public function getAllRecipe(){
+        $recipes = Recipe::with('user')->get();
+        Log::info($recipes);
+
+        return view('home',compact('recipes'));
 
     }
 }
