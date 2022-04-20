@@ -33,13 +33,17 @@
      <div class="row">
         @foreach($recipes as $recipe)        
             <div class="card" style="width:400px">
-                <img class="card-img-top" src="/image/{{ $recipe->image }}" alt="Card image">
+                <img class="card-img-top" src="/{{ $recipe->image }}" alt="Card image">
                 <div class="card-body">
                     <h4 class="card-title">{{ $recipe->recipe_name }}</h4>
                     {{-- <p class="card-text">{{ $recipe->detail }}</p> --}}
                     <a href="{{ route('recipes.show',$recipe->id) }}" class="btn btn-primary">See More</a>
                 </div>
             </div>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            &nbsp;
         @endforeach
     </div> 
 

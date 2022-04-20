@@ -35,19 +35,4 @@ class Review extends Model
   {
     return $this->belongsTo(Recipe::class,'recipe_id','id');
   }
-
-  public function scopeApproved($query)
-  {
-    return $query->where('approved', true);
-  }
-
-  public function scopeSpam($query)
-  {
-    return $query->where('spam', true);
-  }
-
-  public function scopeNotSpam($query)
-  {
-    return $query->where('spam', false);
-  }
 }

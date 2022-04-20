@@ -119,7 +119,7 @@ class RecipeController extends Controller
 
             $image->move($destinationPath, $profileImage);
 
-            $input['image'] = "$profileImage";
+            $input['image'] = $destinationPath.$profileImage;
 
         }
 
@@ -135,6 +135,7 @@ class RecipeController extends Controller
     }
 
      
+    // * @param  \App\Recipe  $recipe
 
     /**
 
@@ -142,24 +143,28 @@ class RecipeController extends Controller
 
      *
 
-     * @param  \App\Recipe  $recipe
 
      * @return \Illuminate\Http\Response
 
      */
 
-    public function show(Recipe $recipe)
+    public function show($id)
 
     {
-        $recipe->reviews = $recipe->reviews;
+        $recipe = Recipe::with('reviews','reviews.user')->where('id',$id)->first();
+        // $recipe->reviews = $recipe->reviews;
+        // $recipe->reviews->user = $recipe->reviews->user;
         $reting_sum = $recipe->reviews->sum('rating');
+
+        $user_rating = $recipe->reviews->where('user_id',Auth::id())->first();
+        Log::info($recipe);
         
         if($recipe->reviews->count() > 0){
             $rating_value = $reting_sum / $recipe->reviews->count(); 
         }else{
             $rating_value = 0;
         }
-        return view('recipes.show',compact('recipe','rating_value'));
+        return view('recipes.show',compact('recipe','rating_value','user_rating'));
 
     }
 

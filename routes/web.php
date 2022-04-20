@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,9 @@ Route::get('/home', [RecipeController::class, 'getAllRecipe'])->name('home');
 
 Route::middleware(['auth'])->group(function() {
     Route::post('/add-rating-review',[ReviewController::class,'add'])->name('add-rating'); 
+    Route::get('profile-details',[HomeController::class,'profile'])->name('profile'); 
+    Route::post('/set-profile',[HomeController::class,'setProfile'])->name('set.profile'); 
 
 });  
+
 Route::resource('recipes', RecipeController::class);
