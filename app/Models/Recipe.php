@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Recipe extends Model
 {
@@ -36,5 +37,9 @@ class Recipe extends Model
         return $this->hasMany(Review::class,'recipe_id','id');
     }
 
+    public function bookmarks()
+    {
+        return $this->hasOne(BookMark::class,'recipe_id','id')->where('user_id',Auth::id());
+    }
 
 }

@@ -31,7 +31,7 @@ class ReviewController extends Controller
                     'comment' => $comment,
                 ]);
             }
-            return redirect()->back()->with('success',"Thank you for rating this product");
+            return redirect()->back()->with('success',"Thank you for rating this Recipe");
         }else{
             return redirect()->back()->with('error','You can not rate this Recipe');
         }

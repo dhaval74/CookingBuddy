@@ -22,6 +22,15 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link 
+  href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" 
+  rel="stylesheet"  type='text/css'>
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>    
+  
+  {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> --}}
+  
+            
 
 </head>
 <style>
@@ -71,12 +80,12 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                @if(Auth::user())
+                {{-- @if(Auth::user()) --}}
                 <a class="navbar-brand" href="{{ url('/home') }}">
                     {{-- {{ config('app.name', 'Recipe') }} --}}
                     CookingBuddy
                 </a>
-                @endif
+                {{-- @endif --}}
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -84,11 +93,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-                        <li>
-                            <a class="navbar-brand" href="{{ url('/profile-details') }}">
-                                profile
-                            </a>
-                        </li>
+                        @if(Auth::user())
+                            <li>
+                                <a class="navbar-brand" href="{{ url('/recipes') }}">
+                                    Your recipes
+                                </a>
+                            </li>
+                            <li>
+                                <a class="navbar-brand" href="{{ url('home?type=bookmarks') }}">
+                                    Your BookMark
+                                </a>
+                            </li>
+                            <li>
+                                <a class="navbar-brand" href="{{ url('/profile-details') }}">
+                                    Profile
+                                </a>
+                            </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

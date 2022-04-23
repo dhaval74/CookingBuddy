@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('book_marks', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('recipe_id')->nullable();
-            $table->integer('rating')->nullable();
-            $table->string('comment')->nullable();
+            $table->enum('is_bookmark',[0,1])->default(0);
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('user_id')
             ->on('users')
@@ -41,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('book_marks');
     }
 };

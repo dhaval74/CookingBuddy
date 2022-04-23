@@ -51,50 +51,56 @@
 
     <div class="row">
 
-        <div class="col-lg-12 margin-tb">
+        <div class="col-lg-8 margin-tb">
 
             <div class="pull-left">
 
                 <h2> Show Recipe</h2>
 
             </div>
+            {{-- @if(Auth::user())
+                <div class="pull-right">
 
-            <div class="pull-right">
+                    <a class="btn btn-primary" href="{{ route('recipes.index') }}"> Back</a>
 
-                <a class="btn btn-primary" href="{{ route('recipes.index') }}"> Back</a>
-
-            </div>
+                </div>
+            @endif --}}
 
         </div>
 
     </div>
-    @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    @elseIf($message = Session::get('error'))
-        <div class="alert alert-danger">
-            <p>{{ $message }}</p>
-        </div>
-    @else
-        <br>
+    @if(Auth::user())
+        @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                <p>{{ $message }}</p>
+            </div>
+        @elseIf($message = Session::get('error'))
+            <div class="alert alert-danger">
+                <p>{{ $message }}</p>
+            </div>
+        @else
+            <br>
+        @endif
     @endif
-<br>
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Rete this recipe
-      </button>
-
-      <br>    
-      <br>    
+    <br>
+    @if(Auth::user() && Auth::user()->id != $recipe->user_id)
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Rete this recipe
+        </button><br><br>    
+    @endif    
 
     <div class="row">
         <div class="card">
             <div class="rating">
                 <div class="rate">
-                    @for($i=5 ; $i>= 1 ; $i--)
-                        <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" readonly  @if($i == number_format($rating_value)) checked @endif />
-                        <label for="star{{ $i }}" title="text">{{ $i }} stars</label>
-                    @endfor
+
+                        @php $ratenum = number_format($rating_value) @endphp
+                        @for($i=1;$i<= $ratenum ;$i++)
+                            <i class="fa fa-star" style="color: #fbc634;"></i>
+                        @endfor
+                        @for($j = $ratenum + 1 ; $j<=5 ;$j++)
+                            <i class="fa fa-star"></i>
+                        @endfor
                 </div>
                 <p>
                     @if(number_format($rating_value) > 0)
@@ -117,17 +123,62 @@
                 {{-- {{$reviews}} --}}
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-1">
-                                @if($reviews['user']['profile'])
-                                    <img src="/{{ $reviews['user']['profile']}}" style="border-radius: 50%;border: 1px solid black;" class="img img-rounded img-fluid"/>
-                                @else
-                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" class="img img-rounded img-fluid"/>
-                                @endif
-
-                                {{-- <p class="text-secondary text-center">15 Minutes Ago</p> --}}
-                            </div>
                             <div class="col-md-10">
-                                <p>
+
+                                <div class="comment-widgets">
+                                    <div class="review mt-4">
+                                        <div class="d-flex flex-row comment-user">
+                                            @if($reviews['user']['profile'])
+                                                    <img src="/{{ $reviews['user']['profile']}}" alt="user" width="50" class="rounded-circle"> 
+                                                {{-- </div> --}}
+                                            @else
+                                                {{-- <div class="img mb-2">  --}}
+                                                    <img src="https://image.ibb.co/jw55Ex/def_face.jpg" alt="user" width="50" class="rounded-circle">
+                                                {{-- </div> --}}
+                                            @endif
+                                            <div class="ml-2">
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <span class="name font-weight-bold">{{ $reviews['user']['name'] ?? "" }}</span>
+                                                    <span class="dot">&nbsp;&nbsp;</span>
+                                                    <span class="date">{{ date("m-d-Y H:i:s", strtotime($reviews['user']['created_at'])) }}</span></div>
+                                                <div class="rating">
+                                                    @for($i=1;$i<= $reviews['rating'] ;$i++)
+                                                        <i class="fa fa-star" style="color: #fbc634;"></i>
+                                                    @endfor
+                                                    @for($j = $reviews['rating'] + 1 ; $j<=5 ;$j++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-2">
+                                            <p class="comment-text">
+                                                {{ $reviews['comment'] ?? "" }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!-- Comment Row -->
+                                    {{-- <div class="d-flex flex-row comment-row m-t-0">
+                                        <div class="comment-text w-100">
+                                            <h6 class="font-medium">{{ $reviews['user']['name'] ?? "" }}</h6> 
+                                                <span class="m-b-15 d-block"> {{ $reviews['comment'] ?? "" }}</span>
+                                            <div class="comment-footer"> <span class="text-muted float-right">April 14, 2019</span> 
+                                                <div class="rate">
+                                                    @for($i=1;$i<= $reviews['rating'] ;$i++)
+                                                        <i class="fa fa-star" style="color: #fbc634;"></i>
+                                                    @endfor
+                                                    @for($j = $reviews['rating'] + 1 ; $j<=5 ;$j++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  --}}
+                                </div>
+
+                                
+
+                                {{-- <p>
                                     <strong>{{ $reviews['user']['name'] ?? "" }}</strong> 
                                     &nbsp;                          
                                     <span>
@@ -139,12 +190,14 @@
                                 </p>
                                 <p class="text-secondary text-center">
                                     <div class="rate">
-                                        @for($i=5 ; $i>= 1 ; $i--)
-                                            <input type="radio" id="star{{ $i }}{{$reviews['user']['id']}}" name="rating{{$reviews['user']['id']}}" value="{{ $i }}"  readonly @if($i == $reviews['rating']) checked @endif />
-                                            <label for="star{{ $i }}{{$reviews['user']['id']}}" title="text">{{ $i }} stars</label>
+                                        @for($i=1;$i<= $reviews['rating'] ;$i++)
+                                            <i class="fa fa-star" style="color: #fbc634;"></i>
+                                        @endfor
+                                        @for($j = $reviews['rating'] + 1 ; $j<=5 ;$j++)
+                                            <i class="fa fa-star"></i>
                                         @endfor
                                     </div>
-                                </p>
+                                </p> --}}
                             </div>
                         </div>
                     </div>

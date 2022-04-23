@@ -7,7 +7,7 @@
             {{-- <div class="pull-left">
                 <h2>Laravel 8 CRUD with Image Upload Example from scratch - ItSolutionStuff.com</h2>
             </div> --}}
-            <div class="pull-right">
+            <div class="pull-left">
                 <a class="btn btn-success" href="{{ route('recipes.create') }}">Create Recipe</a>
             </div>
         </div>
@@ -18,7 +18,6 @@
             <p>{{ $message }}</p>
         </div>
     @else
-        <br>
     @endif
      
     {{-- <table class="table table-bordered">

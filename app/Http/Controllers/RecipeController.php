@@ -14,13 +14,9 @@ class RecipeController extends Controller
     public function index(){
        
         if (request()->ajax()) {
-
-            // $users = Recipe::get();
             $userId = Auth::user()->id;
 
             $user = User::where('id','=',$userId)->with('recipes')->first();
-            //$user = Recipe::where('user_id','=',$userId)->get();
-            Log::info($user);
             return DataTables::of($user['recipes'])
                 ->addIndexColumn()
                 ->addColumn('action',function($row){
@@ -40,16 +36,7 @@ class RecipeController extends Controller
                     </form>
                 ';
                     return $action;
-                }) 
-                // ->editColumn('date',function($row){
-                //     return $row->created_at != null ? date('d M Y',strtotime($row->created_at)) : '-';
-                // }) 
-                // ->editColumn('image',function($row){
-                //     return $row->src !=null ? '<img src="'.asset($row->src).'" width="50" height="50" />'  : '--';
-                // })            
-                // ->addColumn('action', function($row){
-                //    return '';
-                // })
+                })
                 ->rawColumns(['action'])
                 ->make(true);
         }
@@ -97,7 +84,7 @@ class RecipeController extends Controller
 
         $request->validate([
 
-            'recipe_name' => 'required',
+            'recipe_name' => 'required|string|max:255',
 
             'detail' => 'required',
 
@@ -123,14 +110,12 @@ class RecipeController extends Controller
 
         }
 
-    $user = User::find(Auth::user()->id);
-    $user->recipes()->create($input);
-
-     
+        $user = User::find(Auth::user()->id);
+        $user->recipes()->create($input);     
 
         return redirect()->route('recipes.index')
 
-                        ->with('success','Recipe created successfully.');
+                        ->with('success','Recipe created successfully.')->withInput();
 
     }
 
@@ -152,6 +137,7 @@ class RecipeController extends Controller
 
     {
         $recipe = Recipe::with('reviews','reviews.user')->where('id',$id)->first();
+
         // $recipe->reviews = $recipe->reviews;
         // $recipe->reviews->user = $recipe->reviews->user;
         $reting_sum = $recipe->reviews->sum('rating');
@@ -280,11 +266,53 @@ class RecipeController extends Controller
 
 
 
-    public function getAllRecipe(){
-        $recipes = Recipe::with('user')->get();
-        Log::info($recipes);
+    public function getAllRecipe(Request $request){
+        $type = 0;
+        if(isset($request->type)){
+            $type = $request->type;
+        }
+        $recipes = Recipe::with('user','reviews','bookmarks')                  
+                   ->orderBy('id', 'DESC');
 
-        return view('home',compact('recipes'));
+                   if($type =='bookmarks'){
+                    $recipes->whereHas('bookmarks',function($q) use($type){
+                        if($type == 'bookmarks'){
+                             $q->where('user_id',Auth::id())->where('is_bookmark','1');
+                        }
+                    });
+                }
+                   
+        if (request()->ajax()) {
+            $search = request()->search; 
+
+            if(!empty($search)){
+                $recipes = $recipes->where(function ($query) use ($search) {
+                    $query->orWhere('recipe_name', 'LIKE', '%' . $search . '%');
+                    // $query->orWhere('detail', 'LIKE', '%' . $search . '%');
+                });
+            }            
+        }
+        $recipes = $recipes->get();
+       
+        $rating = [];
+
+        foreach($recipes as $recipe){
+            $rating[$recipe->id] = 0;
+            if(!empty($recipe->reviews)&& count($recipe->reviews) > 0){
+                foreach($recipe->reviews as $review){
+                    $rating[$recipe->id]+=$review->rating;
+                }
+                $rating[$recipe->id] = $rating[$recipe->id] / count($recipe->reviews);
+            }          
+
+        }
+
+        if (request()->ajax()) {
+            return view('welcome',compact('recipes','rating'))->render();
+        }else{
+            return view('home',compact('recipes','rating'));
+            
+        }
 
     }
 }

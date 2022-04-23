@@ -32,13 +32,13 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="recipe_name" value="{{ $recipe->recipe_name }}" class="form-control" placeholder="Recipe Name">
+                    <input type="text" name="recipe_name" value="{{ old('recipe_name',$recipe->recipe_name)}}" class="form-control" placeholder="Recipe Name">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Detail:</strong>
-                    <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ $recipe->detail }}</textarea>
+                    <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ old('detail',$recipe->detail) }}</textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
