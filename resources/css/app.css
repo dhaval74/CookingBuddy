@@ -191,3 +191,7 @@ body {
 .comment-widgets .comment-row:hover {
     background: rgba(0, 0, 0, 0.05)
 }
+
+.recipe-grid{
+    width:230px;height:200px;
+}

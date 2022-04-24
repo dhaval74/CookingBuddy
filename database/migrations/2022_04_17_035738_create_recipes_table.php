@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('recipe_name');
+            $table->string('recipe_name')->nullable();
+            $table->string('ingredients')->nullable();
             $table->string('image')->nullable();
             $table->text('detail')->nullable();
             $table->enum('status',['ACTIVE', 'INACTIVE'])->default('ACTIVE')->comment('ACTIVE, INACTIVE');

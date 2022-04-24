@@ -1,0 +1,16 @@
+.recipe-grid{
+    width:230px;height:200px;
+}
+.main-recipe{
+    position: relative; 
+    background-size: cover;
+    min-height: 95vh;    
+    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url('https://previews.123rf.com/images/vell/vell1508/vell150800078/44194588-blank-book-recipes-and-various-spices-food-background-with-copyspace.jpg?fj=1') no-repeat;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.card-body{
+    background: white;
+}

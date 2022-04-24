@@ -18,38 +18,8 @@
             <p>{{ $message }}</p>
         </div>
     @else
+    <br>
     @endif
-     
-    {{-- <table class="table table-bordered">
-        <tr>
-            <th>No</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Details</th>
-            <th width="280px">Action</th>
-        </tr>
-        @foreach ($recipes as $product)
-        <tr>
-            <td>{{ ++$i }}</td>
-            <td><img src="/image/{{ $product->image }}" width="100px"></td>
-            <td>{{ $product->recipe_name }}</td>
-            <td>{{ $product->detail }}</td>
-            <td>
-                <form action="{{ route('recipes.destroy',$product->id) }}" method="POST">
-     
-                    <a class="btn btn-info" href="{{ route('recipes.show',$product->id) }}">Show</a>
-      
-                    <a class="btn btn-primary" href="{{ route('recipes.edit',$product->id) }}">Edit</a>
-    
-                    @csrf
-                    @method('DELETE')
-        
-                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table> --}}
     <div class="card-body">
              
         <div class="table-responsive mt-3">
@@ -58,6 +28,7 @@
                     <tr>
                         <th>{{__('ID')}}</th>
                         <th>{{__('Recipe Name')}}</th>
+                        <th>{{__('Ingredients')}}</th>
                         <th>{{__('Details')}}</th>
                         <th width="280px">{{__('Action')}}</th>
                     </tr>
@@ -89,7 +60,7 @@
          } ,
          columns: [
             { data: 'id' ,name :'id' },
-            // { data: 'name' ,name :'name' },
+            { data: 'ingredients' ,name :'ingredients' },
             { data: 'recipe_name' ,name :'recipe_name' },
             { data: 'detail' ,name :'detail' },
             { 

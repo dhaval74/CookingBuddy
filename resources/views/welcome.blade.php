@@ -1,8 +1,8 @@
-@foreach($recipes as $recipe)   
+@forelse($recipes as $recipe)   
             <div class="col-md-3">
                 <div class="card p-2 py-3 text-center">
                     <div class="img mb-2"> 
-                        <img class="card-img-top" src="/{{ $recipe->image }}" alt="Card image">
+                        <img class="card-img-top recipe-grid" src="/{{ $recipe->image }}" alt="Card image">
                     </div>
                     <h5 class="mb-0">{{ $recipe->recipe_name }}</h5> 
                     <div class="ratings mt-2">
@@ -34,4 +34,6 @@
                     </div>
                 </div>
             </div>
-@endforeach        
+@empty
+    <p>No Recipe Found!</p>
+@endforelse 

@@ -86,6 +86,8 @@ class RecipeController extends Controller
 
             'recipe_name' => 'required|string|max:255',
 
+            'ingredients' => 'required|string|max:255',
+
             'detail' => 'required',
 
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -198,19 +200,19 @@ class RecipeController extends Controller
 
         $request->validate([
 
-            'recipe_name' => 'required',
+            'recipe_name' => 'required|string|max:255',
+            
+            'ingredients' => 'required|string|max:255',
 
             'detail' => 'required',
-
         ]);
 
-  
-
-        $input = $request->all();
-
-  
+        $input = $request->all();  
 
         if ($image = $request->file('image')) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
             $destinationPath = 'image/';
 
@@ -218,7 +220,7 @@ class RecipeController extends Controller
 
             $image->move($destinationPath, $profileImage);
 
-            $input['image'] = "$profileImage";
+            $input['image'] = $destinationPath.$profileImage;
 
         }else{
 

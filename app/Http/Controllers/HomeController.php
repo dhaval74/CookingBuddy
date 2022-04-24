@@ -51,13 +51,9 @@ class HomeController extends Controller
 
         $request->validate([
 
-            'name' => 'required',
+            'name' => 'required|string|max:255',
 
-            'email' => 'required',
-
-            // 'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
-            // 'phone' => 'require',
+            'email' => 'required|string|max:255',
 
         ]);
 
@@ -65,6 +61,10 @@ class HomeController extends Controller
         unset($input['_token']);
 
         if ($image = $request->file('profile')) {
+
+            $request->validate([
+                'profile' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
 
             $destinationPath = 'profile/';
 

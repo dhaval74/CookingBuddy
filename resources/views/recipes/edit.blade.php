@@ -2,6 +2,7 @@
      
 @section('content')
 <div class="container">
+    <div class="card-body">
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
@@ -32,13 +33,19 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="recipe_name" value="{{ old('recipe_name',$recipe->recipe_name)}}" class="form-control" placeholder="Recipe Name">
+                    <input type="text" name="recipe_name" value="{{ old('recipe_name',$recipe->recipe_name)}}" required class="form-control" placeholder="Recipe Name">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Ingredient:</strong>
+                    <input type="text" name="ingredients" value="{{ old('ingredients',$recipe->ingredients) }}" required class="form-control" placeholder="Ingredient Name">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Detail:</strong>
-                    <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ old('detail',$recipe->detail) }}</textarea>
+                    <textarea class="form-control" style="height:150px" name="detail" required placeholder="Detail">{{ old('detail',$recipe->detail) }}</textarea>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -54,5 +61,6 @@
         </div>
      
     </form>
+    </div>
 </div>
 @endsection

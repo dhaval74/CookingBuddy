@@ -112,10 +112,12 @@
             </div>
             <div class="card-body">
                 <div class="col-md-10">
-                <img class="card-img-top" src="/{{ $recipe->image }}" alt="Card image">
+                    <img class="card-img-top" src="/{{ $recipe->image }}" alt="Card image">
                 </div>
-                <h4 class="card-title">{{ $recipe->recipe_name }}</h4>
-                <p class="card-text">{{ $recipe->detail }}</p>
+                <br>
+                <h4 class="card-title">Recipe Name : {{ $recipe->recipe_name ?? ""}}</h4>
+                <h4 class="card-title">Ingredients : {{ $recipe->ingredients ?? "" }}</h4>
+                <p class="card-text">{{ $recipe->detail ?? ""}}</p>
             </div>
 
             <div class="card card-inner">
@@ -130,11 +132,8 @@
                                         <div class="d-flex flex-row comment-user">
                                             @if($reviews['user']['profile'])
                                                     <img src="/{{ $reviews['user']['profile']}}" alt="user" width="50" class="rounded-circle"> 
-                                                {{-- </div> --}}
                                             @else
-                                                {{-- <div class="img mb-2">  --}}
                                                     <img src="https://image.ibb.co/jw55Ex/def_face.jpg" alt="user" width="50" class="rounded-circle">
-                                                {{-- </div> --}}
                                             @endif
                                             <div class="ml-2">
                                                 <div class="d-flex flex-row align-items-center">
@@ -157,47 +156,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    <!-- Comment Row -->
-                                    {{-- <div class="d-flex flex-row comment-row m-t-0">
-                                        <div class="comment-text w-100">
-                                            <h6 class="font-medium">{{ $reviews['user']['name'] ?? "" }}</h6> 
-                                                <span class="m-b-15 d-block"> {{ $reviews['comment'] ?? "" }}</span>
-                                            <div class="comment-footer"> <span class="text-muted float-right">April 14, 2019</span> 
-                                                <div class="rate">
-                                                    @for($i=1;$i<= $reviews['rating'] ;$i++)
-                                                        <i class="fa fa-star" style="color: #fbc634;"></i>
-                                                    @endfor
-                                                    @for($j = $reviews['rating'] + 1 ; $j<=5 ;$j++)
-                                                        <i class="fa fa-star"></i>
-                                                    @endfor
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>  --}}
                                 </div>
-
-                                
-
-                                {{-- <p>
-                                    <strong>{{ $reviews['user']['name'] ?? "" }}</strong> 
-                                    &nbsp;                          
-                                    <span>
-                                        {{ date("Y-m-d H:i:s", strtotime($reviews['user']['created_at'])) }}
-                                    </span>                            
-                                </p>
-                                <p>
-                                    {{ $reviews['comment'] ?? "" }}
-                                </p>
-                                <p class="text-secondary text-center">
-                                    <div class="rate">
-                                        @for($i=1;$i<= $reviews['rating'] ;$i++)
-                                            <i class="fa fa-star" style="color: #fbc634;"></i>
-                                        @endfor
-                                        @for($j = $reviews['rating'] + 1 ; $j<=5 ;$j++)
-                                            <i class="fa fa-star"></i>
-                                        @endfor
-                                    </div>
-                                </p> --}}
                             </div>
                         </div>
                     </div>
